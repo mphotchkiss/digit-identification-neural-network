@@ -140,11 +140,10 @@ class LinearLayer:
   #################################################
   # Q3 Implementing Backward Pass for Linear
   #################################################
-  def backward(self, grad):
-    raise Exception('Student error: You haven\'t implemented the backward pass for linear yet.')
-    self.grad_weights = #TODO1
-    self.grad_bias = #TODO2
-    return #TODO3
+  def backward(self, grad): # grad = dL/dZ
+    self.grad_weights = np.transpose(self.input)@grad # dL/dW = X^T * (dL/dZ)
+    self.grad_bias = np.sum(grad) # dL/db = sum of rows of dL/dZ
+    return grad@np.transpose(self.weights) # dL/dX = dL/dZ * W^T
     
   def step(self, step_size):
     self.weights -= step_size*self.grad_weights
