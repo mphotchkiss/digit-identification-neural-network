@@ -13,15 +13,15 @@ matplotlib.rc('font', **font)
 
 
 # GLOBAL PARAMETERS FOR STOCHASTIC GRADIENT DESCENT
-np.random.seed(102)
-step_size = 0.01
+np.random.seed(1)
+step_size = 0.007
 batch_size = 200
-max_epochs = 200
+max_epochs = 300
 
 # GLOBAL PARAMETERS FOR NETWORK ARCHITECTURE
 number_of_layers = 2
 width_of_layers = 16  # only matters if number of layers > 1
-activation = "ReLU" if False else "Sigmoid" 
+activation = "ReLU" if True else "Sigmoid" 
 
 def main():
 
@@ -121,7 +121,12 @@ def main():
   ################################
   # Q7 Evaluate on Test
   ################################
-  raise Exception('Student error: You haven\'t implemented evaluating the test set yet.')
+  logits = net.forward(X_test)
+  predictions = np.argmax(logits,axis=1)[:,np.newaxis]
+  id_and_predictions = np.concatenate((np.expand_dims(np.array(range(np.shape(X_test)[0]),dtype=int), axis=1), predictions), axis=1)
+  header = np.array([["id", "digit"]])
+  output = np.concatenate((header, id_and_predictions))
+  np.savetxt('test_predicted.csv', output, fmt='%s', delimiter=',')
 
 
 
